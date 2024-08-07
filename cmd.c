@@ -18,7 +18,6 @@ void update_dirs(char *dir) {
 
 void pushd (char *ch_dir) {
      char current_dir[LENGTH] = {'\0'};
-     printf("pushd");
      if (!first_path) {
         if (getcwd(current_dir, LENGTH) != NULL ) {
            update_dirs(current_dir);
@@ -34,12 +33,10 @@ void pushd (char *ch_dir) {
         printf("\n  No such file or directory" );
      }
 
-     dirs();
 }
 
 void pushd_right(int k) {
     if (stack == NULL || k == 0) return;
-    printf("\n rotateRight: %d", k);
     node * oldHead = stack;
     node * current = oldHead;
     int length = 1;
@@ -169,11 +166,11 @@ void pop(void) {
       printf("\n  No such file or directory" );
     }
 
-    dirs();
 }
 
 void dirs(){
    node *current = stack;
+   printf("\n");
     while (current != NULL) {
         printf("%s\n", current->path);
         current = current->link;
@@ -196,7 +193,7 @@ int main() {
         input[strcspn(input, "\n")] = '\0';
 
         if (strcmp(input, "pushd") == 0) {
-            printf("\nPlease provide:  [+N | -N | dir]"); 
+            printf("\nPlease provide:  [+N | -N | dir]\n"); 
             char input[LENGTH];
 
             if (fgets(input, sizeof(input), stdin) == NULL) {
@@ -210,10 +207,11 @@ int main() {
                pushd_left(atoi(&(input[1]))); 
              }else
              pushd(input);
+          dirs();
         } else  if (strcmp(input, "popd") == 0) {
             char input[LENGTH];
 
-            printf("\nPlease provide:  [+N | -N | dir]"); 
+            printf("\nPlease provide:  [+N | -N | dir]\n"); 
             if (fgets(input, sizeof(input), stdin) == NULL) {
                 printf("\nError During fgets");
                 return 1;
@@ -225,15 +223,14 @@ int main() {
                popd_left(atoi(&(input[1]))); 
              }else
               pop();
+          dirs();
         }else if (strcmp(input, "dirs") == 0) {
            dirs();
-        }else 
-           printf("\n Command not found");
-
-        if (strcmp(input, "exit") == 0) {
+        }else if (strcmp(input, "exit") == 0) {
             printf("Exiting...\n");
             break;
-        }
+        } else
+          printf("\n Command not found");
 
     }
 
